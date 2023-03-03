@@ -1,0 +1,7 @@
+{
+  "name": "syntax",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
