@@ -1,28 +1,76 @@
 <template>
   <ion-page>
-    <ion-tabs>
-      <ion-router-outlet></ion-router-outlet>
-      <ion-tab-bar slot="bottom">
-        <ion-tab-button tab="tab1" href="/tabs/tab1">
-          <ion-icon aria-hidden="true" :icon="triangle" />
-          <ion-label>Tab 1</ion-label>
-        </ion-tab-button>
-
-        <ion-tab-button tab="tab2" href="/tabs/tab2">
-          <ion-icon aria-hidden="true" :icon="ellipse" />
-          <ion-label>Tab 2</ion-label>
-        </ion-tab-button>
-
-        <ion-tab-button tab="tab3" href="/tabs/tab3">
-          <ion-icon aria-hidden="true" :icon="square" />
-          <ion-label>Tab 3</ion-label>
+    <ion-header slot="fixed">
+  
+      <ion-toolbar class="" v-if="$route.name=='home'">
+        <ion-title slot="start" size="medium" class="flex" align="justify">
+          <ion-img class="h-10 w-36" :src="logo"></ion-img>
+        </ion-title>
+        <ion-title slot="end" class="!px-0">
+          <ion-button fill="clear" class="" id="trigger-menu">
+            <svg-icon :path="mdiCogOutline" type="mdi"></svg-icon>
+          </ion-button>
+          <ion-popover trigger="trigger-menu" trigger-action="click">
+            <ion-list>
+              <ion-item
+                :button="false"
+                :detail="false"
+                color="dark"
+                class="uppercase font-bold text-center w-full overflow-hidden overflow-ellipsis whitespace-nowrap"
+              >
+                {{ $userStore.user?.name }}
+              </ion-item>
+              <ion-item :button="true" @click="logOut" :detail="false"
+                >Cerrar Sesión</ion-item
+              >
+            </ion-list>
+          </ion-popover>
+        </ion-title>
+      </ion-toolbar>
+      <ion-tab-bar class="shadow-lg border pt-1">
+        <ion-tab-button
+          v-for="menu in menuItems"
+          :key="menu.key"
+          :tab="menu.key"
+          :href="`/pages${menu.path}`"
+        >
+          <svg-icon
+            :size="30"
+            fill="gray"
+            :path="menu.icon"
+            type="mdi"
+          ></svg-icon>
         </ion-tab-button>
       </ion-tab-bar>
-    </ion-tabs>
+    </ion-header>
+    <ion-content>
+      <ion-tabs class="pt-4">
+        <ion-router-outlet></ion-router-outlet>
+      </ion-tabs>
+    </ion-content>
   </ion-page>
 </template>
 
-<script setup lang="ts">
-import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
-import { ellipse, square, triangle } from 'ionicons/icons';
+<script>
+  import { defineComponent } from "vue";
+  import { mdiCogOutline } from "@mdi/js";
+  import menuItems from "../vars/menu";
+  export default defineComponent({
+    name: "TabsPage",
+
+    setup() {
+      const logo = require("@/assets/logo_complete.png");
+      return {
+        menuItems,
+        mdiCogOutline,
+        logo,
+      };
+    },
+    methods: {
+      logOut() {
+        this.$userStore.logout();
+        this.$router.push("/auth/login");
+      },
+    },
+  });
 </script>

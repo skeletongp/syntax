@@ -4,6 +4,23 @@
   </ion-app>
 </template>
 
-<script setup lang="ts">
-import { IonApp, IonRouterOutlet } from '@ionic/vue';
+<script>
+  import { IonApp, IonRouterOutlet } from "@ionic/vue";
+  import Task from "@/orm/models/Task";
+  import { defineComponent } from "vue";
+  import { Plugins } from "@capacitor/core";
+  const {SplashScreen} = Plugins;
+  export default defineComponent({
+    name: "AppVue",
+
+    components: {
+      IonApp,
+      IonRouterOutlet,
+    },
+
+    async mounted() {
+     
+      
+    },
+  });
 </script>
