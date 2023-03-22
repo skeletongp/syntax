@@ -42,11 +42,15 @@ import {
   IonSearchbar,
   IonAccordion,
   IonAccordionGroup,
-  IonFabButton
+  IonFabButton,
+  IonBackButton,
+  IonNav,
+  IonNavLink
 } from "@ionic/vue";
 
 import ChartBar from "@/components/general/ChartBar.vue";
 import ChartPie from "@/components/general/ChartPie.vue";
+import NavBar from "@/components/general/NavBar.vue";
 function antd(app) {
   app.component("SvgIcon", SvgIcon);
   app.component("IonPage", IonPage);
@@ -92,11 +96,14 @@ function antd(app) {
   app.component("IonAccordion", IonAccordion);
   app.component("IonAccordionGroup", IonAccordionGroup);
   app.component("IonFabButton", IonFabButton);
-  
-  
+  app.component("IonBackButton", IonBackButton);
+  app.component("IonNav", IonNav);
+  app.component("IonNavLink", IonNavLink);
+
+
   app.component("ChartBar", ChartBar);
   app.component("ChartPie", ChartPie);
-  
+  app.component("NavBar", NavBar);
 
 }
 

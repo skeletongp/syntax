@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    
+   
     <ion-content :fullscreen="true">
       <TaskForm :action="saveTask" />
     </ion-content>
