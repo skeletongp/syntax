@@ -1,22 +1,38 @@
 <template>
-  <ion-button id="open-modal" expand="block" fill="clear">
-  Mostrar tareas
+  <ion-button @click="showModal = true" expand="block" fill="clear">
+    Mostrar tareas
   </ion-button>
   <ion-modal
-  trigger="open-modal"
-    :show-backgrop="false"
+    :show-backdrop="false"
     :backdrop-breakpoint="0.25"
     ref="modal"
-    :is-open="false"
+    :is-open="showModal"
+    :backdrop-dismiss="false"
     :initial-breakpoint="0.5"
-    :breakpoints="[0.5,  0.9]"
+    :breakpoints="[0.5, 0.9]"
     class=""
   >
+    <ion-header>
+      <ion-toolbar>
+        <ion-searchbar
+          slot="start"
+          @click="$refs.modal.$el.setCurrentBreakpoint(0.5)"
+          placeholder="Bucar tarea"
+          @change="onSearch"
+          @ion-clear="onClear"
+          v-model="searchText"
+        ></ion-searchbar>
+        <ion-button
+          slot="end"
+          mode="ios"
+          color="primary"
+          fill="clear"
+          @click="showModal = false"
+          >Cerrar</ion-button
+        >
+      </ion-toolbar>
+    </ion-header>
     <ion-content class="">
-      <ion-searchbar
-        @click="$refs.modal.$el.setCurrentBreakpoint(0.75)"
-        placeholder="Bucar tarea" @change="onSearch" v-model="searchText"
-      ></ion-searchbar>
       <ion-list>
         <ion-item
           v-for="(task, index) in tasks"
@@ -69,6 +85,7 @@
     },
     data: () => ({
       searchText: "",
+      showModal: false,
     }),
     props: {
       tasks: {
@@ -104,9 +121,12 @@
       getFormatedDate(date) {
         return moment(date).format("DD/MM/YYYY");
       },
-      onSearch(){
-       this.$emit('onSearch', this.searchText)
-      }
+      onSearch() {
+        this.$emit("onSearch", this.searchText);
+      },
+      onClear() {
+        this.$emit("onSearch", "");
+      },
     },
     emits: ["onSearch"],
   });

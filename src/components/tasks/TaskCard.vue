@@ -2,40 +2,62 @@
   <ion-card>
     <div>
       <a-image
-      class="!max-h-[26rem]"  
-      :alt="task.photo.caption || 'No photo'"
-      :src="task.photo.path || 'https://picsum.photos/200/300'"
-    />
+        class="!max-h-[26rem]"
+        :alt="task.photo.caption || 'No photo'"
+        :src="task.photo.path || 'https://picsum.photos/200/300'"
+      />
     </div>
     <ion-card-header class="">
       <div class="flex justify-between items-center">
-        <ion-card-title class="line-clamp-1 ">{{
-          task.title
-        }}</ion-card-title>
-        <div class="flex items-center ">
-          <ion-button fill="clear" size="small" class="ion-no-padding">
+        <ion-card-title class="line-clamp-1">{{ task.title }}</ion-card-title>
+        <div class="flex items-center">
+          <a-popconfirm
+            title="¿Eliminar tarea"
+            ok-text="Sí"
+            cancel-text="No"
+            :confirm="deleteTask"
+          >
+            <ion-button fill="clear" size="small" class="ion-no-padding">
+              <svg-icon
+                type="mdi"
+                fill="#BE7663"
+                :path="mdiTrashCanOutline"
+              ></svg-icon>
+            </ion-button>
+          </a-popconfirm>
+          <ion-button
+            fill="clear"
+            size="small"
+            class="ion-no-padding"
+            :router-link="`/pages/edit/${task.id}`"
+            router-direction="foward"
+          >
             <svg-icon
               type="mdi"
               fill="#0076AA"
               :path="mdiPencilCircleOutline"
             ></svg-icon>
           </ion-button>
-         <a-popconfirm title="¿Eliminar tarea" ok-text="Sí" cancel-text="No" :confirm="deleteTask" >
-          <ion-button fill="clear" size="small" class="ion-no-padding">
-            <svg-icon
-              type="mdi"
-              fill="#BE7663"
-              :path="mdiTrashCanOutline"
-            ></svg-icon>
-          </ion-button>
-         </a-popconfirm>
-          <ion-button fill="clear" size="small" class="ion-no-padding">
+
+          <ion-button
+            id="trigger-option"
+            fill="clear"
+            size="small"
+            class="ion-no-padding"
+          >
             <svg-icon
               type="mdi"
               fill="black"
               :path="mdiDotsVertical"
             ></svg-icon>
           </ion-button>
+          <ion-popover trigger="trigger-option" trigger-action="click">
+            <ion-list>
+              <a-popconfirm title="¿Confirmar?" ok-text="Sí" cancel-text="No">
+                <ion-item :button="true" :detail="false"> Confirmar </ion-item>
+              </a-popconfirm>
+            </ion-list>
+          </ion-popover>
         </div>
       </div>
       <ion-card-subtitle class="flex justify-between">

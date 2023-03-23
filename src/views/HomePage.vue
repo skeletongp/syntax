@@ -28,18 +28,31 @@
         />
         <div class="flex justify-between items-center">
           <TaskList @onSearch="onSearch" :tasks="filterData" />
-          <ion-button id="chart-modal" expand="block" fill="clear">
+          <ion-button @click="showChart = true" expand="block" fill="clear">
             Mostrar gráfica
           </ion-button>
           <ion-modal
-            trigger="chart-modal"
+            :is-open="showChart"
             :show-backgrop="false"
             :backdrop-breakpoint="0.25"
+            :backdrop-dismiss="false"
             ref="chart"
             :initial-breakpoint="0.9"
             :breakpoints="[0.9]"
             class=""
           >
+            <ion-header>
+              <ion-toolbar>
+                <ion-button
+                  slot="end"
+                  mode="ios"
+                  color="primary"
+                  fill="clear"
+                  @click="showChart = false"
+                  >Cerrar</ion-button
+                >
+              </ion-toolbar>
+            </ion-header>
             <ion-content class="">
               <div class="pt-8">
                 <ChartPie
@@ -91,6 +104,7 @@
     data: () => ({
       filterPeriod: null,
       data: [],
+      showChart: false,
       filterData: [],
       highDates: [],
       params: {
@@ -117,12 +131,16 @@
         }, 300);
       },
       async ionViewWillEnter() {
-       
         this.getTasks();
+        this.$forceUpdate();
+      },
+
+      async ionViewWillLeave() {
+        this.$refs.chart.$el.dismiss();
       },
       async getTasks() {
         const result = await new TaskController().index(this.params);
-        if(result.code==200){
+        if (result.code == 200) {
           this.data = result.data;
           this.filterData = result.data;
         }
@@ -144,7 +162,8 @@
         this.highDates = highDates;
       },
       onSearch(val) {
-        console.log(val);
+        this.params.search = [val];
+        this.getTasks();
       },
     },
     components: { TaskList, CardMain },
@@ -191,20 +210,26 @@
           const lastOfMonth = moment().endOf("month").format("YYYY-MM-DD");
           const today = moment().format("YYYY-MM-DD");
           const user_id = localStorage.getItem("isLogged");
-          
+
           if (val) {
             switch (val) {
               case "today":
                 this.params.where = ["due_date", today];
                 break;
               case "week":
-                this.params.where=null;
-                this.params.whereDateBetween = ["due_date", [startOfWeek, endOfWeek]];
-                
+                this.params.where = null;
+                this.params.whereDateBetween = [
+                  "due_date",
+                  [startOfWeek, endOfWeek],
+                ];
+
                 break;
               case "month":
-                this.params.where=null;
-                this.params.whereDateBetween = ["due_date", [firstOfMonth, lastOfMonth]];
+                this.params.where = null;
+                this.params.whereDateBetween = [
+                  "due_date",
+                  [firstOfMonth, lastOfMonth],
+                ];
                 break;
             }
           }

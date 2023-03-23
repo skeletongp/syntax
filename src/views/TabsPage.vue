@@ -34,7 +34,7 @@
     <ion-content>
       <ion-nav :root="home"></ion-nav>
       <ion-tabs class="">
-        <ion-router-outlet></ion-router-outlet>
+        <ion-router-outlet :key="$route.fullpath"></ion-router-outlet>
       </ion-tabs>
     </ion-content>
   </ion-page>

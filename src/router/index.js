@@ -34,6 +34,11 @@ const routes=[
         path: 'detail/:id',
         component: () => import('@/views/TaskView.vue')
 
+      },
+      {
+        path: 'edit/:id',
+        component: () => import('@/views/TaskEdit.vue')
+
       }
       
       

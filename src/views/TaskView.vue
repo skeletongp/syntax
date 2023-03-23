@@ -45,12 +45,11 @@
       async ionViewWillEnter() {
         const id = parseInt(this.$route.params.id);
         const result = await new Task(window.db)
-          .include(Photo)
+          .include(Photo, "hasMany")
           .include(Subtask, "hasMany")
           .find(id);
-        console.log(result);
         if (result) {
-          result.photo = JSON.parse(result.photo);
+          result.photo = JSON.parse(result.photos)[0];
           this.task = result;
         }
       },

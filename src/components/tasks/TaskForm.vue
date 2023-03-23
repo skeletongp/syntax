@@ -2,17 +2,17 @@
   <ion-content class="">
     <form @submit.prevent="submitForm" class="px-3">
       <ion-item>
-        <ion-label position="floating">Título</ion-label>
+        <ion-label :position="task?'stacked':'floating'">Título</ion-label>
         <ion-input autocapitalize="sentences" v-model="data.title" />
       </ion-item>
 
       <ion-item>
-        <ion-label position="floating">Descripción</ion-label>
+        <ion-label :position="task?'stacked':'floating'">Descripción</ion-label>
         <ion-input autocapitalize="sentences" v-model="data.description" />
       </ion-item>
 
       <ion-item>
-        <ion-label position="floating">Nota adicional</ion-label>
+        <ion-label :position="task?'stacked':'floating'">Nota adicional</ion-label>
         <ion-input autocapitalize="sentences" v-model="data.node"></ion-input>
       </ion-item>
 
@@ -56,7 +56,7 @@
         </ion-modal>
       </ion-item>
 
-      <ion-item>
+      <ion-item v-if="!task">
         <div class="image-container my-2 p-0 w-full">
           <ion-img
             class="!max-h-[15rem]"
@@ -74,7 +74,7 @@
       </ion-item>
 
       <ion-button type="submit" expand="block" class="px-3 mt-8" color="primary"
-        >Registrar tarea</ion-button
+        >{{task?"Actualizar":"Registrar"}} tarea</ion-button
       >
     </form>
   </ion-content>
@@ -98,7 +98,7 @@
     props: {
       task: {
         type: Object,
-        default: () => {},
+        default: null,
       },
 
       action: {
@@ -132,19 +132,12 @@
     },
     methods: {
       async takePhoto() {
-        const CameraResultType = {
-          Uri: "uri",
-        };
-
-        const CameraSource = {
-          Camera: "camera",
-        };
         try {
           const photo = await Camera.getPhoto({
             quality: 100,
             allowEditing: false,
-            resultType: CameraResultType.Uri,
-            source: CameraSource.Camera,
+            resultType: "uri",
+            source: "camera",
           });
           this.photo = photo.webPath;
         } catch (error) {
@@ -162,7 +155,7 @@
 
         if (result.code == 201) {
           Toast.show({
-            text: "Tarea registrada correctamente",
+            text: `Tarea ${this.task?'actualizada':'registrada'} correctamente`,
           });
           const task_id= result.data.id;
           const photo = {
@@ -176,6 +169,7 @@
           this.photo = noPhoto;
           this.data.status = "pending";
           this.data.priority = 1;
+          this.$router.push('/pages/detail/'+task_id);
         } else if (result.code == 402) {
           this.errors = result.data;
         } else {
