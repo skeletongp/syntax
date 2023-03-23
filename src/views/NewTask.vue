@@ -30,9 +30,7 @@
     },
 
     async mounted() {
-      const sql = "PRAGMA table_info(tasks);";
-      const result = await window.db.run(sql);
-      console.log(result);
+     
     },
   });
 </script>

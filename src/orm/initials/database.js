@@ -33,7 +33,6 @@ class Database {
   get(sql, params = []) {
     try {
       return new Promise((resolve, reject) => {
-        console.log("running sql: ", sql, " with params: ", params)
         this.db.all(sql, params, (err, rows) => {
           if (err) {
             console.log("error running sql: ", sql, " with params: ", params);

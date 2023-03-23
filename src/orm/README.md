@@ -53,7 +53,6 @@ const database = new sqlite3.Database(dbPath, (err) => {
   if (err) {
     console.error(err.message);
   }
-  console.log("Connected to the database.");
 });
 const db = {
     run =async (query, value)=>{

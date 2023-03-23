@@ -229,12 +229,10 @@
           Toast.show({
             text: "Error al registrar la tarea",
           });
-          console.log(result.data);
         }
       },
     },
     mounted() {
-      console.log(this.task);
       this.photo = noPhoto;
 
       if (this.task) {

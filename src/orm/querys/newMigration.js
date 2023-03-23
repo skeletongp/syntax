@@ -18,7 +18,7 @@ if (fs.existsSync(filePath)) {
 }
 //capitalize first letter of table
 const capName = table.charAt(0).toUpperCase() + table.slice(1);
-pathFoMigration = "../initials/migrate.js";
+const pathFoMigration = "../initials/migrate.js";
 const fileContent = `
 import Migrate from "${pathFoMigration}";
 export default class ${capName}Migration extends Migrate {

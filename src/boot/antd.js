@@ -6,7 +6,8 @@ import {
     Image,
     Popconfirm,
     Popover,
-    Button
+    Button,
+    Divider
 } from "ant-design-vue"
 
  function antd (app){
@@ -16,7 +17,8 @@ import {
     app.component(Image.name, Image);
     app.component(Popconfirm.name, Popconfirm);
     app.component(Popover.name, Popover);
-    app.component(Button.name, Button);
+    app.component(Button.name, Button); 
+    app.component(Divider.name, Divider);
 }
 
 export default antd

@@ -39,6 +39,11 @@ const routes=[
         path: 'edit/:id',
         component: () => import('@/views/TaskEdit.vue')
 
+      },
+      {
+        path: 'stats',
+        name: 'stats',
+        component: () => import('@/views/TaskStats.vue')
       }
       
       

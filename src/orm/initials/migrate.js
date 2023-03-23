@@ -224,7 +224,6 @@ export default class Migrate {
   async createColumn() {
     const columnDefinition = this.getColumnDefinition(this.currentColumn);
     const existsColumn = await this.validateColumn(this.currentColumn.name);
-    console.log(existsColumn);
     if (existsColumn) return false;
     const query = `ALTER TABLE ${this.tableName} ADD COLUMN ${columnDefinition}`;
     this.runQuery(query);

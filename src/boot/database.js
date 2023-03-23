@@ -73,7 +73,6 @@ const db = {
   },
   get: async (sql, values = []) => {
     try {
-    console.log(sql, values)
 
         await CapacitorSQLite.open({ database: dbName, path: dbPath });
       const result = await CapacitorSQLite.query({

@@ -1,5 +1,5 @@
 <template>
-  <ion-tab-bar class="shadow-lg border pt-1 flex justify-around">
+  <ion-tab-bar  class="shadow-lg border pt-1 flex justify-around">
     <ion-nav-link mode="ios" v-for="menu in menuItems" :key="menu.key">
       <ion-button
         mode="ios"

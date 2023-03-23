@@ -49,6 +49,7 @@ import {
   IonNote,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
+  
 } from "@ionic/vue";
 
 import ChartBar from "@/components/general/ChartBar.vue";

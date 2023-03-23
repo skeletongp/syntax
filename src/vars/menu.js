@@ -23,9 +23,9 @@ const menuItems=[
     },
    
     {
-        key: 'completed',
+        key: 'stats',
         icon: icons.mdiPoll,
-        path: '/completed',
+        path: '/stats',
     }
 ]
 

@@ -142,7 +142,6 @@
       },
       async getTasks() {
         const result = await new TaskController().index(this.params);
-        console.log(result);
         if (result.code == 200) {
           this.tasks.push(...result.data);
         }
