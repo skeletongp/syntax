@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 import Task from "../orm/models/Task.js";
 import requestTask from "../orm/requests/requestTask.js";
 
@@ -7,19 +8,30 @@ export default class TaskController {
     this.Task = new Task(this.db);
   }
 
-  async index(params) {
+  async index(params={}) {
     try {
       var query = this.Task;
       Object.entries(params).map(([key, value]) => {
-        if (value) {
+        if (value && key != 'paginate') {
           query = query[key](...Object.values(value));
         }
       });
-      const tasks = await query.get();
-      return {
-        code: 200,
-        data: tasks,
-      };
+      var tasks=[];
+      if(params.paginate){
+         tasks = await query.paginate(params.paginate.page, params.paginate.per_page);
+         return {
+          code: 200,
+          data: tasks.data,
+        };
+      }
+      else{
+        tasks = await query.get();
+        return {
+          code: 200,
+          data: tasks,
+        };
+      }
+      
     } catch (error) {
       console.log(error);
       return {
@@ -31,8 +43,10 @@ export default class TaskController {
 
   async store(data) {
     var time = data.due_time.split("T");
-    if (time.length > 0) {
+    if (time.length > 1) {
       time = time[1].substring(0, 5);
+    } else{
+      time = time[0].substring(0, 5);
     }
     data.due_time = time;
     const validatedData = new requestTask(this.db, data).validate();
@@ -101,7 +115,11 @@ export default class TaskController {
       }
       const task = await this.Task.find(data.id);
       Object.keys(data).forEach((key) => {
-        task[key] = data[key];
+        //if task has the key
+      
+        if (task.hasOwnProperty(key)) {
+          task[key] = data[key];
+        }
       });
       await this.Task.update(task);
 

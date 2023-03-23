@@ -81,7 +81,6 @@ export default class Model {
     return this;
   }
 
-
   whereDate(column, date) {
     this.whereClauses.push({
       column,
@@ -133,7 +132,7 @@ export default class Model {
     return this;
   }
   async pluck(column1, column2) {
-    var results=[];
+    var results = [];
     if (column2) {
       results = await this.select(column1, column2).get();
     } else {
@@ -156,7 +155,7 @@ export default class Model {
     primaryKey = "id",
     alias = ""
   ) {
-    const alloweTypes=["hasOne","hasMany","belongsTo","belongsToMany"]
+    const alloweTypes = ["hasOne", "hasMany", "belongsTo", "belongsToMany"];
     if (!alloweTypes.includes(type)) {
       type = "hasOne";
     }
@@ -194,6 +193,7 @@ export default class Model {
         count++;
       }
     }
+
     return this;
   }
 
@@ -313,8 +313,12 @@ export default class Model {
           i > 0 ? ` ${joiner || "AND"} ` : ""
         }\`${column}\` ${operator} ${
           operator == "BETWEEN" || operator == "NOT BETWEEN"
-            ? funct?`${funct}(?) AND ${funct}(?)`:"(?) AND (?)"
-            : funct?`${funct}(?)`:"(?)"
+            ? funct
+              ? `${funct}(?) AND ${funct}(?)`
+              : "(?) AND (?)"
+            : funct
+            ? `${funct}(?)`
+            : "(?)"
         }`;
         if (operator == "BETWEEN" || operator == "NOT BETWEEN") {
           values.push(value[0]);
@@ -352,6 +356,7 @@ export default class Model {
       }
     }
     sql += ` ${this.limitClause}`;
+    sql=this.replaceLikes(sql);
     const results = await this.db.get(sql, values);
 
     const modelClass = this.constructor;
@@ -373,6 +378,24 @@ export default class Model {
       }
     }
     return data;
+  }
+
+  replaceLikes(sql) {
+    //Find word before first LIKE
+    const match1 = sql.match(/`(\w+)`\s+LIKE\s+\(\?\)/);
+    console.log(match1)
+    if(match1) {
+      sql=sql.replace(match1[0], `(${match1[0]}`)
+    }
+
+    //Find index of word after last LIKE
+    const match2 = sql.match(/`(\w+)`\s+LIKE\s+\(\?\)/g);
+    if(match2) {
+      sql=sql.replace(match2[match2.length-1], `${match2[match2.length-1]})`)
+    }
+
+    return sql;
+
   }
 
   async remove() {
@@ -402,8 +425,6 @@ export default class Model {
     return result;
   }
 
-  
-
   /* From queryBuilder */
 
   async create(data) {
@@ -419,7 +440,7 @@ export default class Model {
   }
 
   async delete(id) {
-    return this.queryBuilder.delete(id);
+    return this.queryBuilder.delete(id, this.softDeletes);
   }
 
   async forceDelete(id) {

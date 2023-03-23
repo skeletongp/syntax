@@ -57,17 +57,7 @@ export default class QueryBuilder {
     }
   }
 
-  async delete(id) {
-    const sql = `DELETE FROM ${this.tableName} WHERE id = ?`;
-    try {
-      await this.db.run(sql, id);
-      return true;
-    } catch (error) {
-      return false;
-    }
-  }
-
-  async forceDelete(id, softDeletes = false) {
+  async delete(id, softDeletes = false) {
     if (softDeletes == true) {
       const now = Math.floor(new Date().getTime() / 1000);
       const sql = `UPDATE ${this.tableName} SET deleted_at=? WHERE id = ?`;
@@ -76,6 +66,17 @@ export default class QueryBuilder {
       const sql = `DELETE FROM ${this.tableName} WHERE id = ?`;
       await this.db.run(sql, id);
     }
+  }
+
+  async forceDelete(id) {
+    const sql = `DELETE FROM ${this.tableName} WHERE id = ?`;
+    try {
+      await this.db.run(sql, id);
+      return true;
+    } catch (error) {
+      return false;
+    }
+   
   }
 
   async restore(id) {

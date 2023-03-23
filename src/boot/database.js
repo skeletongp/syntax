@@ -1,4 +1,8 @@
 import { CapacitorSQLite, SQLiteConnection } from "@capacitor-community/sqlite";
+import Task from "@/orm/models/Task";
+import Photo from "@/orm/models/Photo";
+import testData from "@/assets/testData.js";
+const noPhoto = require("@/assets/no-photo.png");
 const dbName = "taskDB";
 const dbPath = "default";
 
@@ -31,6 +35,24 @@ const mmigrateDB= async () => {
       await Migration.up();
     });
   });
+}
+const populateTasks= async () => {
+  const tasks = await new Task(db).get();
+ if (tasks.length == 0) {
+    try {
+      testData.map(async (task) => {Task(db).create(task);
+      });
+      for (let index = 0; index <= 52; index++) {
+        await new Photo(window.db).create({
+          task_id: index,
+          path: noPhoto,
+          caption: new Date().getTime().toString(),
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 initDB();
 mmigrateDB();
@@ -79,3 +101,5 @@ String.prototype.hash = function () {
 };
 
 window.db = db;
+populateTasks();
+

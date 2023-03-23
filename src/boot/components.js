@@ -45,7 +45,10 @@ import {
   IonFabButton,
   IonBackButton,
   IonNav,
-  IonNavLink
+  IonNavLink,
+  IonNote,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
 } from "@ionic/vue";
 
 import ChartBar from "@/components/general/ChartBar.vue";
@@ -99,6 +102,10 @@ function antd(app) {
   app.component("IonBackButton", IonBackButton);
   app.component("IonNav", IonNav);
   app.component("IonNavLink", IonNavLink);
+  app.component("IonNote", IonNote);
+  app.component("IonInfiniteScroll", IonInfiniteScroll);
+  app.component("IonInfiniteScrollContent", IonInfiniteScrollContent);
+
 
 
   app.component("ChartBar", ChartBar);

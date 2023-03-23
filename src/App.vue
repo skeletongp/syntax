@@ -9,7 +9,9 @@
   import Photo from "@/orm/models/Photo";
   import { defineComponent } from "vue";
   import { Plugins } from "@capacitor/core";
-  const {SplashScreen} = Plugins;
+  import TaskController from "@/controllers/TaskController";
+
+  const { SplashScreen } = Plugins;
   export default defineComponent({
     name: "AppVue",
 
@@ -19,7 +21,6 @@
     },
 
     async mounted() {
-     
       
     },
   });

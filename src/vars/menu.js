@@ -9,19 +9,16 @@ const menuItems=[
         key: 'home',
         icon: icons.mdiHomeOutline,
         path: '/home',
-        component: HomePage
     },
     {
         key: 'new',
         icon: icons.mdiPlusCircleOutline,
         path: '/new',
-        component: NewTask
     },
     {
-        key: 'pending',
+        key: 'tasks',
         icon: icons.mdiCalendarCheckOutline,
-        path: '/pending',
-        component: TaskPage
+        path: '/tasks',
 
     },
    
@@ -29,7 +26,6 @@ const menuItems=[
         key: 'completed',
         icon: icons.mdiPoll,
         path: '/completed',
-        component: TaskPage
     }
 ]
 

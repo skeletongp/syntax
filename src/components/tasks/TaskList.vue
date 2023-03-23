@@ -37,7 +37,9 @@
         <ion-item
           v-for="(task, index) in tasks"
           :key="index"
-          :href="`/pages/detail/${task.id}`"
+          :router-link="`/pages/detail/${task.id}`"
+          router-direction="foward"
+          @click="onTaskClick(task)"
         >
           <ion-avatar slot="start">
             <svg-icon
@@ -95,7 +97,7 @@
     },
     methods: {
       onTaskClick(task) {
-        console.log(task);
+        this.showModal = false;
       },
       getTaskStatusIcon(status) {
         switch (status) {
@@ -127,6 +129,7 @@
       onClear() {
         this.$emit("onSearch", "");
       },
+      
     },
     emits: ["onSearch"],
   });

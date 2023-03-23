@@ -4,7 +4,9 @@ import {
     TabPane,
     Calendar,
     Image,
-    Popconfirm
+    Popconfirm,
+    Popover,
+    Button
 } from "ant-design-vue"
 
  function antd (app){
@@ -13,6 +15,8 @@ import {
     app.component(Calendar.name, Calendar);
     app.component(Image.name, Image);
     app.component(Popconfirm.name, Popconfirm);
+    app.component(Popover.name, Popover);
+    app.component(Button.name, Button);
 }
 
 export default antd

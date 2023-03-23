@@ -8,11 +8,10 @@ import "./boot/database";
 import "./theme/app.css";
 import iniApp from "./boot/initial";
 import { createPinia } from "pinia";
+import {Plugins} from '@capacitor/core';
 
-/* tables.tables.forEach(table => {
-  db.createTable(table.name,table.columns);
-});
- */
+const { SplashScreen } = Plugins;
+
 const app = createApp(App).use(IonicVue).use(router);
 const pinia = createPinia();
 
@@ -20,6 +19,8 @@ app.use(pinia);
 iniApp(app);
 antd(app);
 components(app);
+
+SplashScreen.show();
 
 router.isReady().then(() => {
   app.mount("#app");

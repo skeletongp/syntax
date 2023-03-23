@@ -26,6 +26,8 @@
           :highlighted-dates="highDates"
           mode="md"
         />
+        <LatestTasks :nextTask="nextTask" :lastDone="lastDone" />
+
         <div class="flex justify-between items-center">
           <TaskList @onSearch="onSearch" :tasks="filterData" />
           <ion-button @click="showChart = true" expand="block" fill="clear">
@@ -75,9 +77,10 @@
   import TaskList from "../components/tasks/TaskList.vue";
   import TaskController from "@/controllers/TaskController";
   import Subtask from "@/orm/models/Subtask";
+  import LatestTasks from "../components/tasks/LatestTasks.vue";
   import moment from "moment";
   import CardMain from "../components/general/CardMain.vue";
-
+  import { mdiStar, mdiClockAlertOutline, mdiCalendarCheckOutline } from "@mdi/js";
   export default defineComponent({
     name: "HomePage",
 
@@ -99,6 +102,7 @@
       };
       return {
         options,
+        mdiStar,
       };
     },
     data: () => ({
@@ -113,8 +117,10 @@
         orderBy: ["due_date", "asc"],
         include: null,
         search: null,
-        limit: [10],
+        limit: [100],
       },
+      nextTask: null,
+      lastDone: null,
     }),
     methods: {
       async onChange(evt) {
@@ -132,11 +138,45 @@
       },
       async ionViewWillEnter() {
         this.getTasks();
+        this.getNextTask();
+        this.getLasDone();
         this.$forceUpdate();
       },
 
       async ionViewWillLeave() {
         this.$refs.chart.$el.dismiss();
+      },
+      async getNextTask() {
+        const params = {
+          where: ["status", "pending"],
+          orderBy: ["due_date", "asc"],
+          limit: [1],
+        };
+        const result = await new TaskController().index(params);
+        if (result.code == 200) {
+          const nextTask = result.data[0];
+          if (nextTask) {
+            nextTask.due_date = moment(nextTask.due_date).format("YYYY-MM-DD");
+            (nextTask.icon = mdiClockAlertOutline), (nextTask.fill = "#F9C806");
+            this.nextTask = nextTask;
+          }
+        }
+      },
+      async getLasDone() {
+        const params = {
+          where: ["status", "completed"],
+          orderBy: ["due_date", "desc"],
+          limit: [1],
+        };
+        const result = await new TaskController().index(params);
+        if (result.code == 200) {
+          const lastDone = result.data[0];
+          if (lastDone) {
+            lastDone.due_date = moment(lastDone.due_date).format("YYYY-MM-DD");
+            (lastDone.icon = mdiCalendarCheckOutline), (lastDone.fill = "#008800");
+            this.lastDone = lastDone;
+          }
+        }
       },
       async getTasks() {
         const result = await new TaskController().index(this.params);
@@ -166,7 +206,7 @@
         this.getTasks();
       },
     },
-    components: { TaskList, CardMain },
+    components: { TaskList, CardMain, LatestTasks },
     computed: {
       chartData() {
         const completed = this.filterData.filter(

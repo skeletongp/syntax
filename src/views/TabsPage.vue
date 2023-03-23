@@ -11,7 +11,7 @@
           <ion-button fill="clear" class="" id="trigger-menu">
             <svg-icon :path="mdiCogOutline" type="mdi"></svg-icon>
           </ion-button>
-          <ion-popover trigger="trigger-menu" trigger-action="click">
+          <ion-popover trigger="trigger-menu" trigger-action="click" ref="prof-popover">
             <ion-list>
               <ion-item
                 :button="false"
@@ -61,6 +61,9 @@
       logOut() {
         this.$userStore.logout();
         this.$router.push("/auth/login");
+      },
+      ionViewWillLeave() {
+        this.$refs["prof-popover"].$el.dismiss();
       },
     },
   });
