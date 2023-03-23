@@ -13,11 +13,11 @@
     class=""
   >
     <ion-header>
-      <ion-toolbar>
+      <ion-toolbar class="ion-padding-top">
         <ion-searchbar
           slot="start"
           @click="$refs.modal.$el.setCurrentBreakpoint(0.5)"
-          placeholder="Bucar tarea"
+          placeholder="Buscar tarea"
           @change="onSearch"
           @ion-clear="onClear"
           v-model="searchText"

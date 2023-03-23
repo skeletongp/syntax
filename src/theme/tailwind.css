@@ -35,5 +35,10 @@
     bottom: 0 !important;
     left: 0 !important;
     margin: auto;
+    max-width: 90% !important;
   
   }
+
+  ion-searchbar {
+    --box-shadow: none !important;
+}

@@ -9,19 +9,19 @@ export default class TaskController {
 
   async index(params) {
     try {
-      var query=this.Task;
+      var query = this.Task;
       Object.entries(params).map(([key, value]) => {
-        if(value){
-          query=query[key](...Object.values(value));
+        if (value) {
+          query = query[key](...Object.values(value));
         }
       });
-    const tasks=await query.get();
+      const tasks = await query.get();
       return {
         code: 200,
         data: tasks,
       };
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return {
         code: 500,
         data: error,
@@ -30,11 +30,11 @@ export default class TaskController {
   }
 
   async store(data) {
-    var time=data.due_time.split("T");
-    if(time.length>0){
-     time=time[1].substring(0,5);
+    var time = data.due_time.split("T");
+    if (time.length > 0) {
+      time = time[1].substring(0, 5);
     }
-    data.due_time=time;
+    data.due_time = time;
     const validatedData = new requestTask(this.db, data).validate();
     return new Promise((resolve, reject) => {
       validatedData
@@ -63,9 +63,18 @@ export default class TaskController {
     });
   }
 
-  async show(id) {
+  async show(id, includes = []) {
     try {
-      const task = await this.Task.find(id);
+      if (typeof !includes == "object") {
+        includes = [];
+      }
+      Object.values(includes).map((include) => {
+        this.Task.include(include.model, ...include.params);
+      });
+      var task = await this.Task.find(id);
+      Object.values(includes).map((include) => {
+        task[include.alias] = JSON.parse(task[include.alias]);
+      });
       if (task) {
         return {
           code: 200,
@@ -94,10 +103,10 @@ export default class TaskController {
       Object.keys(data).forEach((key) => {
         task[key] = data[key];
       });
-      await this.Task.update(Task);
+      await this.Task.update(task);
 
       return {
-        code: 200,
+        code: 201,
         data: "Tarea actualizada",
       };
     } catch (error) {
@@ -110,7 +119,7 @@ export default class TaskController {
 
   async destroy(id) {
     try {
-       await this.Task.delete(id);
+      await this.Task.delete(id);
       return {
         code: 200,
         data: "Tarea eliminada",
@@ -122,6 +131,4 @@ export default class TaskController {
       };
     }
   }
-
- 
 }

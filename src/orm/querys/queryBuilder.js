@@ -7,7 +7,7 @@ export default class QueryBuilder {
 
   async create(data) {
     const keys = this.columns;
-    console.log(keys)
+    console.log(keys);
     const values = keys.map((key) => {
       //remove ` from key
       const newKey = key.replace(/`/g, "");
@@ -19,8 +19,10 @@ export default class QueryBuilder {
       ", "
     )}) VALUES (${placeholders.join(", ")}) `;
 
-     await this.db.run(sql, values);
-     const result=await this.db.get(`SELECT * FROM ${this.tableName} ORDER BY id DESC LIMIT 1`);
+    await this.db.run(sql, values);
+    const result = await this.db.get(
+      `SELECT * FROM ${this.tableName} ORDER BY id DESC LIMIT 1`
+    );
     return result[0];
   }
 
@@ -33,22 +35,26 @@ export default class QueryBuilder {
   }
 
   async update(data) {
-    const id = data.id;
-    delete data.id;
-    delete data.created_at;
-    delete data.deleted_at;
-
-    const columns = Object.keys(data).filter((key) => key != "id");
-    columns.push("updated_at");
-    const entries = Object.entries(data);
-    const updates = columns.map((key) => ` ${key} = ?`);
-    const values = entries.map(([neil, value]) => value);
-    values.push(id);
-    const sql = `UPDATE ${this.tableName} SET ${updates.join(
-      ", "
-    )} WHERE id = ?`;
-    const result = await this.db.run(sql, values);
-    return result;
+    try {
+      const id = data.id;
+      delete data.id;
+      delete data.created_at;
+      delete data.deleted_at;
+      data.updated_at = new Date().getTime();
+      const columns = Object.keys(data).filter((key) => key != "id");
+      
+      const entries = Object.entries(data);
+      const updates = columns.map((key) => ` ${key} = ?`);
+      const values = entries.map(([neil, value]) => value);
+      values.push(id);
+      const sql = `UPDATE ${this.tableName} SET ${updates.join(
+        ", "
+      )} WHERE id = ?`;
+      const result = await this.db.run(sql, values);
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async delete(id) {

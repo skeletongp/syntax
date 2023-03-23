@@ -6,7 +6,7 @@
 
 <script>
   import { IonApp, IonRouterOutlet } from "@ionic/vue";
-  import Task from "@/orm/models/Task";
+  import Photo from "@/orm/models/Photo";
   import { defineComponent } from "vue";
   import { Plugins } from "@capacitor/core";
   const {SplashScreen} = Plugins;

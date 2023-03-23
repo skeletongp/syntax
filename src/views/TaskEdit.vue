@@ -10,6 +10,7 @@
   import { defineComponent } from "vue";
   import TaskForm from "../components/tasks/TaskForm.vue";
   import TaskController from "../controllers/TaskController.js";
+  import Photo from "@/orm/models/Photo";
   export default defineComponent({
     name: "TaskEdit",
     setup() {
@@ -24,15 +25,22 @@
 
     methods: {
       async saveTask(task) {
-        const result = await new TaskController().update(task);
+        const result = await new TaskController().update(task, this.task.id);
         return result;
       },
     },
 
     async mounted() {
-      const id= this.$route.params.id;
-      const result= await new TaskController().show(id);
-        this.task= result.data;
+      const id = this.$route.params.id;
+      const includes = [
+        {
+          model: Photo,
+          params: [],
+          alias:"photo"
+        },
+      ];
+      const result = await new TaskController().show(id, includes);
+      this.task = result.data;
     },
   });
 </script>

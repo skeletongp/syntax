@@ -1,10 +1,18 @@
 <template>
   <ion-card>
-    <div>
+    <div
+    @click="openPreview = !openPreview"
+      class="flex justify-center h-48 bg-cover bg-center bg-red-400"
+      :style="{backgroundImage: `url(${task.photo.path|| 'https://picsum.photos/200/300'})`}"
+    >
       <a-image
-        class="!max-h-[26rem]"
+        class="!max-h-[26rem] hidden"
         :alt="task.photo.caption || 'No photo'"
         :src="task.photo.path || 'https://picsum.photos/200/300'"
+        :preview="{
+          visible: openPreview,
+          onVisibleChange: (vis) => (openPreview = vis),
+        }"
       />
     </div>
     <ion-card-header class="">
@@ -118,7 +126,9 @@
       };
     },
     data() {
-      return {};
+      return {
+        openPreview: false,
+      };
     },
     methods: {
       async clicked() {
