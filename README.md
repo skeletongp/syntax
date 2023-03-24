@@ -1,7 +1,7 @@
 
-# Syntaxt
+# Syntax
 
-Syntaxt es una aplicación móvil que permite a los usuarios registrar tareas básicas y organizarlas de manera efectiva. La aplicación está diseñada para ser intuitiva, fácil de usar y atractiva visualmente, con una interfaz limpia, moderna y elegante que destaca por su simplicidad y funcionalidad. 
+Syntax es una aplicación móvil que permite a los usuarios registrar tareas básicas y organizarlas de manera efectiva. La aplicación está diseñada para ser intuitiva, fácil de usar y atractiva visualmente, con una interfaz limpia, moderna y elegante que destaca por su simplicidad y funcionalidad. 
 
 ## Tecnologías utilizadas
 
@@ -85,4 +85,4 @@ Para clonar el repositorio y utilizar la aplicación en su equipo local, siga lo
 
 ## Conclusiones
 
-Syntaxt es una aplicación móvil que ofrece una solución sencilla y efectiva para el registro y organización de tareas básicas. Gracias al uso de tecnologías modernas y una interfaz limpia y atractiva, la aplicación ofrece una experiencia de usuario satisfactoria y una funcionalidad práctica y útil. Con una estructura de tablas relacionales y una serie de funcionalidades principales, la aplicación se presenta como una opción interesante para aquellos usuarios que buscan una herramienta para la gestión básica de sus tareas cotidianas.
+Syntax es una aplicación móvil que ofrece una solución sencilla y efectiva para el registro y organización de tareas básicas. Gracias al uso de tecnologías modernas y una interfaz limpia y atractiva, la aplicación ofrece una experiencia de usuario satisfactoria y una funcionalidad práctica y útil. Con una estructura de tablas relacionales y una serie de funcionalidades principales, la aplicación se presenta como una opción interesante para aquellos usuarios que buscan una herramienta para la gestión básica de sus tareas cotidianas.
