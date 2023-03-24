@@ -2,7 +2,7 @@
   <ion-page>
     <ion-content :fullscreen="true" style="height: 100%">
       <div class="w-full relative">
-        <div class="mb-3 bg-white">
+        <div class="mb-3 bg-white sticky top-0 ">
           <CardMain :filterData="filterData" />
           <ion-select
             placeholder="Filtrar tareas"
